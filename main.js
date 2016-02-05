@@ -1,8 +1,7 @@
 /* global brackets, define, window, document */
 
 define(function (require, exports, module) {
-    "use strict";
-
+    
     var CommandManager  = brackets.getModule("command/CommandManager");
     var Menus           = brackets.getModule("command/Menus");
     var EditorManager   = brackets.getModule("editor/EditorManager");
