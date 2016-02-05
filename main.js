@@ -37,16 +37,28 @@ define(function (require, exports, module) {
     
         },
         
+        copyToClipboard : function (text) {
+            if (window.clipboardData) { // Internet Explorer
+                window.clipboardData.setData("Text", text);
+            } else {  
+                unsafeWindow.netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");  
+                const clipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper);  
+                clipboardHelper.copyString(text);
+            }
+        },
+        
         cut : function() {
             
             var editor = EditorManager.getCurrentFullEditor();
             rightClick.storedValue = rightClick.getSelectedText();
+            rightClick.copyToClipboard(rightClick.storedValue);
             editor._codeMirror.replaceSelection('');
         
         },
         
         copy : function() {
             rightClick.storedValue = rightClick.getSelectedText();
+            rightClick.copyToClipboard(rightClick.storedValue);
         },
         
         paste : function() {
