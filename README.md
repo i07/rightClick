@@ -1,5 +1,5 @@
 # Brackets-rightClick
-Although it's ready to use, it is still considered a work in progress. Feel free to jump in, if you think you can contribute!
+Although it's ready to use, it's still considered a work in progress. Feel free to jump in, if you think you can contribute!
 
 Issues, suggestions, or anything of the nature [here] (https://github.com/i07/rightClick/issues).
 ***
