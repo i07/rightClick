@@ -21,6 +21,9 @@ define(function (require, exports, module) {
         
         init : function() {
             //whatever we want to do at AppInit
+            document.addEventListener('copy', function(e){
+                 rightClick.storedValue = e.srcElement.value;
+            });
         },
         
         getSelectedText : function() {
