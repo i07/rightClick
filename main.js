@@ -1,6 +1,7 @@
 /* global brackets, define, window, document */
 
 define(function (require, exports, module) {
+    "use strict";
     
     var CommandManager  = brackets.getModule("command/CommandManager");
     var Menus           = brackets.getModule("command/Menus");
@@ -36,13 +37,24 @@ define(function (require, exports, module) {
     
         },
         
-        copyToClipboard : function (text) {
-            if (window.clipboardData) { // Internet Explorer
-                window.clipboardData.setData("Text", text);
-            } else {  
-                unsafeWindow.netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");  
-                const clipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper);  
-                clipboardHelper.copyString(text);
+        copyToClipboard : function(text) {
+            
+            if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                
+                var textarea = document.createElement("textarea");
+                textarea.textContent = text;
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+                document.body.appendChild(textarea);
+                textarea.select();
+                
+                try {
+                    return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+                } catch (ex) {
+                    //Copy to clipboard failed.
+                    return false;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
             }
         },
         
