@@ -24,6 +24,9 @@ define(function (require, exports, module) {
             document.addEventListener('copy', function(e){
                  rightClick.storedValue = e.srcElement.value;
             });
+            document.addEventListener('cut', function(e){
+                rightClick.storedValue = e.srcElement.value;
+            });
         },
         
         getSelectedText : function() {
