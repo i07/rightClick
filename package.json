@@ -3,7 +3,7 @@
     "title": "Right click",
     "description": "Adds Cut, Copy and Paste options to the right click menu",
     "homepage": "https://github.com/i07/rightClick",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "author": "Marc Donkers (marc@donkers.co.uk)",
     "license": "MIT",
     "keywords": ["rightclick", "context", "copy", "paste", "cut"]
