@@ -4,6 +4,9 @@ Although it's ready to use, it's still considered a work in progress. Feel free 
 
 Issues, suggestions, or anything of the nature [here] (https://github.com/i07/rightClick/issues).
 ***
+![Brackets rightclick](https://cloud.githubusercontent.com/assets/6317005/12866145/de73b386-ccba-11e5-92e6-5cf60bc74960.png)
+
+
 To install.
 
 - use brackets Extensions manager ( tip: search for 'copy' )
