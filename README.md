@@ -14,5 +14,5 @@ It's all basic JS, no dependencies, so light weight and just does the job! :)
 
 ***
 #version history
-1.0.5 fixed paste a external copy, corrected cursor position on multi-line paste
-1.0.4 initial version
+- 1.0.5 fixed paste a external copy, corrected cursor position on multi-line paste
+- 1.0.4 initial version
