@@ -21,12 +21,14 @@ define(function (require, exports, module) {
         
         init : function() {
             //whatever we want to do at AppInit
-            document.addEventListener('copy', function(e){
-                 rightClick.storedValue = e.srcElement.value;
+            ['copy','cut'].forEach(function(evt) {
+                document.addEventListener(evt, function(e) {
+                    
+                    rightClick.storedValue = e.target.value;    
+                    
+                });
             });
-            document.addEventListener('cut', function(e){
-                rightClick.storedValue = e.srcElement.value;
-            });
+            
         },
         
         getSelectedText : function() {
@@ -64,6 +66,37 @@ define(function (require, exports, module) {
             }
         },
         
+        readFromClipboard : function() {
+            
+            if (document.queryCommandSupported && document.queryCommandSupported("paste")) {
+                
+                var content = '';
+                
+                var textarea = document.createElement("textarea");
+                textarea.id = 'textHolder';
+                textarea.textContent = '';
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+                document.body.appendChild(textarea);
+                content = document.getElementById('textHolder');
+                content.select();
+                
+                try {
+                    if (document.execCommand("paste")) {
+                        return content.value;      
+                    }
+                } catch (ex) {
+                    //Copy to clipboard failed.
+                    return false;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            }
+        },
+        
+        numberOfLines : function(text) {
+            return text.split(/\r\n|\r|\n/).length;
+        },
+        
         cut : function() {
             
             var editor = EditorManager.getCurrentFullEditor();
@@ -77,14 +110,31 @@ define(function (require, exports, module) {
             rightClick.storedValue = rightClick.getSelectedText();
             rightClick.copyToClipboard(rightClick.storedValue);
         },
-        
+         
         paste : function() {
+             
+            rightClick.storedValue = rightClick.readFromClipboard();
             var editor = EditorManager.getCurrentFullEditor();
             var cursor = editor._codeMirror.getCursor();
             
+            var linePos = cursor.line;
+            var charPos = cursor.ch + rightClick.storedValue.length;
+            
+            var lineCount = rightClick.numberOfLines(rightClick.storedValue);
+            if (lineCount > 1) {
+                //we have multiple lines, work out the new end position for the cursor 
+                linePos += lineCount;
+                charPos = rightClick.storedValue.substring(rightClick.storedValue.lastIndexOf("\n")).length;
+            }
+            
             editor._codeMirror.replaceRange(rightClick.storedValue, cursor, cursor);
-            editor._codeMirror.setCursor(cursor.line, cursor.ch + rightClick.storedValue.length);
+            
+            //we lost focus to our editor, so we need to regain it.
+            EditorManager.focusEditor();
+            
+            editor._codeMirror.setCursor(linePos, charPos);
         }
+        
     };
     
     AppInit.appReady(function () {
@@ -101,5 +151,5 @@ define(function (require, exports, module) {
     Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(rightClickCopy);
     Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(rightClickPaste);
     Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(rightClickCut);
-    
+        
 });
