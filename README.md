@@ -1,3 +1,6 @@
+### Important note:
+Currently chromium (on which Brackets is build) doesn't allow "paste" commands through regular JS, therefor this extension will not perform any paste actions anymore. Once brackets decides to allow this (set the proper configuration flag on chromium) the plugin should be functional again. In the meantime you might want to head over to @jbardnz's RightClickExtended which uses nodeJS module for copy-paste actions. https://github.com/jbardnz/RightClickExtended 
+
 ![brackets logo](https://cloud.githubusercontent.com/assets/6317005/12852935/6082a77a-cc29-11e5-910d-3947bcd2b535.png)
 #Brackets-rightClick 
 Although it's ready to use, it's still considered a work in progress. Feel free to jump in, if you think you can contribute!
